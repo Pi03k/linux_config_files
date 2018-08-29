@@ -1,3 +1,4 @@
+scriptencoding utf-8
 function! BuildYCM(info)
   if a:info.status == 'installed' || a:info.force
     !python2 ./install.py --clang-completer
@@ -8,29 +9,23 @@ call plug#begin('~/.vim/plugged')
 Plug 'AndrewRadev/linediff.vim'
 Plug 'AndrewRadev/splitjoin.vim'
 Plug 'ConradIrwin/vim-bracketed-paste'
-Plug 'Glench/Vim-Jinja2-Syntax'
 Plug 'SirVer/ultisnips' | Plug 'honza/vim-snippets'
 Plug 'SirVer/ultisnips', { 'on': '<Plug>(tab)' }
 Plug 'Valloric/YouCompleteMe', { 'do': function('BuildYCM') }
 Plug 'Yggdroot/indentLine', { 'on': 'IndentLinesEnable' }
-Plug 'airblade/vim-gitgutter'
 Plug 'chrisbra/unicode.vim', { 'for': 'journal' }
-Plug 'chriskempson/vim-tomorrow-theme'
 Plug 'ctrlpvim/ctrlp.vim'
 Plug 'dag/vim-fish'
 Plug 'davidoc/taskpaper.vim'
 Plug 'derekwyatt/vim-fswitch'
-Plug 'derekwyatt/vim-scala', { 'for': ['scala', 'sbt.scala', 'markdown'] }
 Plug 'djoshea/vim-autoread'
 Plug 'edkolev/promptline.vim'
 Plug 'groenewege/vim-less'
 Plug 'honza/dockerfile.vim'
-Plug 'junegunn/fzf', { 'do': './install --all' }
-Plug 'junegunn/fzf.vim'
+Plug 'junegunn/fzf' ", { 'dir': '~/.fzf', 'do': './install --all' }
 Plug 'junegunn/seoul256.vim'
 Plug 'junegunn/vader.vim', { 'on': 'Vader', 'for': 'vader' }
 Plug 'junegunn/vim-after-object'
-Plug 'junegunn/vim-easy-align'
 Plug 'junegunn/vim-easy-align', { 'on': ['<Plug>(EasyAlign)', 'EasyAlign'] }
 Plug 'junegunn/vim-fnr'
 Plug 'junegunn/vim-journal'
@@ -38,11 +33,10 @@ Plug 'justinmk/vim-gtfo'
 Plug 'kchmck/vim-coffee-script'
 Plug 'luochen1990/rainbow'
 Plug 'majutsushi/tagbar'
-Plug 'mbbill/undotree', { 'on': 'UndotreeToggle' }
 Plug 'mhinz/vim-signify'
+Plug 'nvie/vim-flake8'
 Plug 'octol/vim-cpp-enhanced-highlight'
 Plug 'pangloss/vim-javascript'
-Plug 'powerline/powerline'
 Plug 'rdnetto/YCM-Generator', { 'branch': 'stable' }
 Plug 'rhysd/vim-clang-format'
 Plug 'rust-lang/rust.vim'
@@ -51,6 +45,7 @@ Plug 'scrooloose/nerdtree', { 'on': 'NERDTreeToggle' }
 Plug 'scrooloose/syntastic'
 Plug 'slim-template/vim-slim'
 Plug 'solarnz/thrift.vim'
+Plug 'tmhedberg/SimpylFold'
 Plug 'tomasr/molokai'
 Plug 'tpope/vim-eunuch'
 Plug 'tpope/vim-fugitive'
@@ -60,116 +55,13 @@ Plug 'vim-airline/vim-airline-themes'
 Plug 'vim-scripts/BufClose.vim'
 Plug 'vim-scripts/LargeFile'
 Plug 'vim-scripts/ReplaceWithRegister'
+Plug 'vim-scripts/indentpython.vim'
 Plug 'vim-scripts/syslog-syntax-file'
 Plug 'xolox/vim-misc'
 Plug 'xolox/vim-session'
-Plug 'yegappan/mru'
+Plug 'maksimr/vim-jsbeautify'
+Plug 'mileszs/ack.vim'
 call plug#end()
-
-syntax on
-scriptencoding utf-8
-set fenc=utf-8
-set termencoding=utf-8
-"set background=light
-"set t_Co=256
-colorscheme seoul256
-hi CursorLine   ctermfg=yellow guibg=grey30 guifg=yellow
-
-"set lazyredraw
-"set synmaxcol=1000
-"silent! set cryptmethod=blowfish2
-set autoindent
-set autoread
-set backspace=2 "działanie backspace i delete w trybie edycji
-set cindent
-set cino=(0,W0,l1,g1,t0
-set clipboard=unnamed
-set clipboard=unnamedplus,unnamed
-set colorcolumn=100
-set columns=100
-set comments=sl:/*,mb:\ *,elx:\ */
-set completeopt=menu,longest
-set completeopt=menuone,preview
-set confirm
-set cursorline
-set cursorline "wyszczególnienie bieżącej linii
-set diffopt+=iwhite
-set diffopt=filler,vertical
-set encoding=utf-8
-set expandtab        " expand tabs to spaces
-set expandtab smarttab
-set foldenable
-set foldlevel=100
-set foldlevelstart=1
-set foldmethod=syntax
-set formatoptions+=tcqron1
-set go+=a               " Visual selection automatically copied to the clipboard
-set grepformat=%f:%l:%c:%m,%f:%l:%m
-set grepprg=ack-grep
-set guifont=Inconsolata\ Medium\ 11
-set guifontwide=Inconsolata\ Medium\ 11
-set hidden
-set history=3000
-set hls
-set hlsearch " CTRL-L / CTRL-R W
-set ignorecase smartcase
-set incsearch
-set laststatus=2
-set laststatus=2   " Always show the statusline
-set list
-set listchars=tab:\|\ ,
-set modelines=2
-set more
-set nobackup
-set nocompatible
-set noignorecase
-set nojoinspaces
-set nomagic
-set nonumber
-set noruler
-set noshowmode " Hide the default mode text (e.g. -- INSERT -- below the statusline)
-set nospell
-set nostartofline
-set noswapfile
-set nowritebackup
-set nrformats=hex
-set paste               " Paste from a windows or from vim
-set ruler
-set scrolloff=5
-set sessionoptions=blank,buffers,curdir,folds,help,tabpages,resize,winsize
-set shiftwidth=4     " indent also with 4 spaces
-set shortmess=aIT
-set showcmd
-set showmatch
-set showtabline=2 " Always display the tabline, even if there is only one tab
-set smartindent
-set spelllang=en
-set t_Co=256
-set tabstop=4        " tab width is 4 spaces
-set tags +=~/.vim/tags/cpp
-set tags +=~/.vim/tags/gl
-set tags +=~/.vim/tags/py27
-set tags +=~/.vim/tags/qt4
-set tags +=~/.vim/tags/sdl
-set textwidth=100 "automatyczne łamanie linii
-set textwidth=120
-set timeoutlen=500
-set virtualedit=block
-set visualbell
-set whichwrap=b,s
-set wildmenu
-set wildmode=list,full
-set wrapmargin=0
-
-set rtp+=/home/pmucko/.vim/bundle/powerline/powerline/bindings/vim
-"call vim#ActivateAddons(['powerline'])
-
-cnoreabbrev csa cs add
-cnoreabbrev csf cs find
-cnoreabbrev csk cs kill
-cnoreabbrev csr cs reset
-cnoreabbrev css cs show
-cnoreabbrev csh cs help
 
 if has('cscope')
   set nocscopetag cscopeverbose
@@ -185,68 +77,132 @@ if has('cscope')
   cnoreabbrev css cs show
   cnoreabbrev csh cs help
 
-"  cnoreabbrev <expr> csa
-"        \ ((getcmdtype() == ':' && getcmdpos() <= 4)? 'cs add'  : 'csa')
-"  cnoreabbrev <expr> csf
-"        \ ((getcmdtype() == ':' && getcmdpos() <= 4)? 'cs find' : 'csf')
-"  cnoreabbrev <expr> csk
-"        \ ((getcmdtype() == ':' && getcmdpos() <= 4)? 'cs kill' : 'csk')
-"  cnoreabbrev <expr> csr
-"        \ ((getcmdtype() == ':' && getcmdpos() <= 4)? 'cs reset' : 'csr')
-"  cnoreabbrev <expr> css
-"        \ ((getcmdtype() == ':' && getcmdpos() <= 4)? 'cs show' : 'css')
-"  cnoreabbrev <expr> csh
-"        \ ((getcmdtype() == ':' && getcmdpos() <= 4)? 'cs help' : 'csh')
+  cnoreabbrev <expr> csa
+        \ ((getcmdtype() == ':' && getcmdpos() <= 4)? 'cs add'  : 'csa')
+  cnoreabbrev <expr> csf
+        \ ((getcmdtype() == ':' && getcmdpos() <= 4)? 'cs find' : 'csf')
+  cnoreabbrev <expr> csk
+        \ ((getcmdtype() == ':' && getcmdpos() <= 4)? 'cs kill' : 'csk')
+  cnoreabbrev <expr> csr
+        \ ((getcmdtype() == ':' && getcmdpos() <= 4)? 'cs reset' : 'csr')
+  cnoreabbrev <expr> css
+        \ ((getcmdtype() == ':' && getcmdpos() <= 4)? 'cs show' : 'css')
+  cnoreabbrev <expr> csh
+        \ ((getcmdtype() == ':' && getcmdpos() <= 4)? 'cs help' : 'csh')
 
-"  command -nargs=0 Cscope cs add $VIMSRC/src/cscope.out $VIMSRC/src
 endif
+
+syntax on
+set fenc=utf-8
+set termencoding=utf-8
+set t_Co=256
+set background=dark
+colorscheme molokai
+
+
+set autoindent
+set autoread
+set cindent
+set cino=(0,W0,l1,g1,t0
+set clipboard=unnamed
+set clipboard=unnamedplus,unnamed
+set colorcolumn=110
+set columns=110
+set comments=sl:/*,mb:\ *,elx:\ */
+set completeopt=menu,longest
+set completeopt=menuone,preview
+set confirm
+set cursorline
+set cursorline "wyszczególnienie bieżącej linii
+set diffopt+=iwhite
+set diffopt=filler,vertical
+set foldenable
+set foldlevel=100
+set foldlevelstart=1
+set foldmethod=syntax
+set formatoptions+=tcqron1
+set go+=a               " Visual selection automatically copied to the clipboard
+set grepformat=%f:%l:%c:%m,%f:%l:%m
+set grepprg=ack-grep
+set hidden
+set history=3000
+set hls
+set hlsearch " CTRL-L / CTRL-R W
+set ignorecase smartcase
+set incsearch
+set laststatus=2
+set laststatus=2   " Always show the statusline
+set list
+set listchars=tab:\|\ ,
+set modelines=2
+set more
+set nobackup
+set nojoinspaces
+set magic
+set nonumber
+set noruler
+set noshowmode " Hide the default mode text (e.g. -- INSERT -- below the statusline)
+set nospell
+set nostartofline
+set noswapfile
+set nowritebackup
+set noshowmode
+set nrformats=hex
+set paste               " Paste from a windows or from vim
+set ruler
+set scrolloff=5
+set sessionoptions=blank,buffers,curdir,folds,help,tabpages,resize,winsize
+set shortmess=aIT
+set showcmd
+set showmatch
+set showtabline=0 " Always display the tabline, even if there is only one tab
+set smartindent
+set spelllang=en
+set t_Co=256
+set tabstop=4
+set shiftwidth=4
+set textwidth=110 "automatyczne łamanie linii
+set textwidth=120
+set timeoutlen=500
+set virtualedit=block
+set visualbell
+set whichwrap=b,s
+set wildmenu
+set wildmode=list:full
+set wrapmargin=0
+set mouse=a
 
 if has('nvim')
-let $FZF_DEFAULT_OPTS .= ' --inline-info'
-" let $NVIM_TUI_ENABLE_TRUE_COLOR = 1
+	let $FZF_DEFAULT_OPTS .= ' --inline-info'
+"	let $NVIM_TUI_ENABLE_TRUE_COLOR=1
+"	set termguicolors
 endif
 
-"autocmd BufNewFile,BufReadPost,VimEnter * RainbowToggleOn
 
 " automatically open and close the popup menu / preview window
 " au CursorMovedI,InsertLeave * if pumvisible() == 0|silent! pclose|endif
-"au BufNewFile,BufRead *.cpp set syntax=cpp11
 "au VimEnter * if &diff | execute 'windo set wrap' | endif
-"autocmd BufWrite *.cpp,*.hpp,*.h :ClangFormat
-au BufNewFile,BufRead *.ttcn,*.ttcn3 setf ttcn
+"au BufWrite *.cpp,*.hpp,*.h :ClangFormat
 au BufNewFile,BufRead *.vshdr,*.fshdr,*.frag,*.vert,*.fp,*.vp,*.glsl setf glsl 
 au BufNewFile,BufRead wscript* set filetype=python
-au BufNewFile,BufReadPost *.bb :set syntax=python
-au BufNewFile,BufReadPost *.cpp,*.c,*.cxx :YcmForceCompileAndDiagnostics
-au BufNewFile,BufReadPost *.log :set ft=syslog
-au BufNewFile,BufReadPost *.pro,*.pri :set ft=make
-au BufRead,BufNewFile *.log,*.LOG,*.err setf syslog
+au BufNewFile,BufReadPost *.bb set syntax=python
+au BufRead,BufNewFile,BufReadPost *.cpp,*.c,*.cxx :YcmForceCompileAndDiagnostics
+au BufNewFile,BufReadPost *.pro,*.pri set ft=make
+au BufRead,BufNewFile *.log,*.LOG,*.err set ft=syslog
 au BufRead,BufNewFile SConstruct set syntax=python
+au BufRead *.py set smartindent cinwords=if,elif,else,for,while,try,except,finally,def,class
+au BufWritePre *.py normal m`:%s/\s\+$//e ``
+au FileType c,cpp,objc nnoremap <buffer><Leader>cf :<C-u>ClangFormat<CR>
+au FileType c,cpp,objc vnoremap <buffer><Leader>cf :ClangFormat<CR>
+"au BufWrite *.cpp,*.hpp,*.h :ClangFormat
 au FileType python set omnifunc=pythoncomplete#Complete
-autocmd BufRead *.py set smartindent cinwords=if,elif,else,for,while,try,except,finally,def,class
-autocmd BufWritePre *.py normal m`:%s/\s\+$//e ``
-autocmd FileType c,cpp,objc nnoremap <buffer><Leader>cf :<C-u>ClangFormat<CR>
-autocmd FileType c,cpp,objc vnoremap <buffer><Leader>cf :ClangFormat<CR>
-autocmd FileType python set omnifunc=pythoncomplete#Complete
-autocmd FilterWritePre * if &diff | setlocal wrap< | endif
-autocmd! User YouCompleteMe if !has('vim_starting') | call youcompleteme#Enable() | endif
-autocmd! User indentLine doautocmd indentLine Syntax
+au FilterWritePre * if &diff | setlocal wrap< | endif
+au Filetype gitcommit setlocal spell textwidth=72
+"au! User YouCompleteMe if !has('vim_starting') | call youcompleteme#Enable() | endif
+"au! User indentLine doautocmd indentLine Syntax
 
 noremap <C-F> <C-D>
 noremap <C-B> <C-U>
-
-" Save
-"inoremap <C-s>     <C-O>:update<cr>
-"nnoremap <C-s>     :update<cr>
-"nnoremap <leader>s :update<cr>
-"nnoremap <leader>w :update<cr>
-
-" Quit
-inoremap <C-Q>     <esc>:q<cr>
-nnoremap <C-Q>     :q<cr>
-vnoremap <C-Q>     <esc>
-nnoremap <Leader>q :q<cr>
-nnoremap <Leader>Q :qa!<cr>
 
 " Tag stack
 nnoremap g[ :pop<cr>
@@ -272,6 +228,9 @@ nnoremap [q :cprev<cr>zz
 nnoremap ]l :lnext<cr>zz
 nnoremap [l :lprev<cr>zz
 
+" args
+nnoremap ]p :next<cr>
+nnoremap [p :previous<cr>
 " ----------------------------------------------------------------------------
 " Buffers
 " ----------------------------------------------------------------------------
@@ -310,27 +269,7 @@ xnoremap > >gv
 " ----------------------------------------------------------------------------
 " Cscope mappings
 " ----------------------------------------------------------------------------
-function! s:add_cscope_db()
-  " add any database in current directory
-  let db = findfile('cscope.out', '.;')
-  if !empty(db)
-    silent cs reset
-    silent! execute 'cs add' db
-  " else add database pointed to by environment
-  elseif !empty($CSCOPE_DB)
-    silent cs reset
-    silent! execute 'cs add' $CSCOPE_DB
-  endif
-endfunction
-
 if has("cscope")
-  set csprg=/usr/bin/cscope
-  set csto=0
-  set cst
-  set nocsverb
-  set csverb
-  call s:add_cscope_db()
-
   "   's'   symbol: find all references to the token under cursor
   "   'g'   global: find global definition(s) of the token under cursor
   "   'c'   calls:  find all calls to the function name under cursor
@@ -461,8 +400,6 @@ else
 endif
 command! -nargs=1 -bar Grep execute 'silent! grep! <q-args>' | redraw! | copen
 
-nnoremap U :UndotreeToggle<CR>
-
 nnoremap <leader>so :OpenSession
 nnoremap <leader>ss :SaveSession
 nnoremap <leader>sd :DeleteSession<CR>
@@ -483,6 +420,7 @@ nnoremap <leader>y :YcmForceCompileAndDiagnostics<cr>
 nnoremap <leader>g :YcmCompleter GoTo<CR>
 nnoremap <leader>pd :YcmCompleter GoToDefinition<CR>
 nnoremap <leader>pc :YcmCompleter GoToDeclaration<CR>
+nnoremap <leader>pf :YcmCompleter GoToDefinitionElseDeclaration<CR>
 
 nnoremap <silent><C-p> :CtrlPMRUFiles<CR>
 "Copy file name to clipboard register
@@ -497,15 +435,6 @@ nmap ,d :b#<bar>bd#<CR> "Remove buffer without closing the view
 "nnoremap <Leader>d :call ClangGetDeclarations()<CR>
 "nnoremap <Leader>s :call ClangGetSubclasses()<CR>
 "
-" nnoremap <silent> <Leader><Leader> :Files<CR>
-nnoremap <silent> <expr> <Leader><Leader> (expand('%') =~ 'NERD_tree' ? "\<c-w>\<c-w>" : '').":Files\<cr>"
-nnoremap <silent> <Leader>C :Colors<CR>
-nnoremap <silent> <Leader><Enter> :Buffers<CR>
-nnoremap <silent> <Leader>ag :Ag <C-R><C-W><CR>
-nnoremap <silent> <Leader>AG :Ag <C-R><C-A><CR>
-nnoremap <silent> <Leader>` :Marks<CR>
-" nnoremap <silent> q: :History:<CR>
-" nnoremap <silent> q/ :History/<CR>
 inoremap <expr> <c-x><c-t> fzf#complete('tmuxwords.rb --all-but-current --scroll 500 --min 5')
 imap <c-x><c-k> <plug>(fzf-complete-word)
 imap <c-x><c-f> <plug>(fzf-complete-path)
@@ -519,11 +448,6 @@ omap <leader><tab> <plug>(fzf-maps-o)
 "\ 'options': '--delimiter / --nth -1',
 "\ 'down': '~40%',
 "\ 'sink': 'Explore'})
-
-
-"let g:Powerline_symbols='fancy'
-"let g:Powerline_theme=skwp
-let g:Powerline_stl_path_style='short'
 
 let g:pyclewn_args="--gdb=async -m 20"
 "set completefunc=ClangComplete
@@ -582,7 +506,6 @@ let g:ackprg='ack-grep\ -a\ -H\ --nocolor\ --nogroup'
 "let Grep_Path='ack-grep\ -a\ -H\ --nocolor\ --nogroup'
 
 let g:matchparen_insert_timeout=5
-let g:undotree_WindowLayout = 2
 let g:ctrlp_map = '<c-p>'
 let g:ctrlp_regexp = 0
 
@@ -594,17 +517,19 @@ let g:cpp_class_scope_highlight = 1
 let g:cpp_experimental_template_highlight = 1
 let g:tagbar_width = 60
 
-let g:rainbow_active = 1 "0 if you want to enable it later via :RainbowToggle
+syntax on
+let g:rainbow_active = 1
 
-let g:ycm_key_invoke_completion = '<C-tab>'
-let g:ycm_cache_omnifunc = 0
-let g:ycm_auto_trigger = 1
 let g:ycm_always_populate_location_list = 1
-let g:ycm_use_ultisnips_completer = 1
-let g:ycm_collect_identifiers_from_tags_files = 1
-let g:ycm_warning_symbol = 'WW'
+let g:ycm_auto_trigger = 0
+"let g:ycm_cache_omnifunc = 0
+"let g:ycm_collect_identifiers_from_tags_files = 1
+"let g:ycm_goto_buffer_command = 'new-tab'
+"let g:ycm_key_invoke_completion = '<C-tab>'
+"let g:ycm_seed_identifiers_with_syntax = 1
+"let g:ycm_use_ultisnips_completer = 1
 let g:ycm_error_symbol = 'EE'
-let g:ycm_goto_buffer_command = 'new-tab'
+let g:ycm_warning_symbol = 'WW'
 
 " OmniCppComplete
 let OmniCpp_NamespaceSearch = 1
@@ -616,6 +541,27 @@ let OmniCpp_MayCompleteArrow = 1 " autocomplete after ->
 let OmniCpp_MayCompleteScope = 1 " autocomplete after ::
 let OmniCpp_DefaultNamespaces = ["std", "_GLIBCXX_STD"]
 
+let g:airline#extensions#tabline#enabled = 0
+let g:airline_powerline_fonts = 1
+let g:airline_section_b = '' "airline#section#create_left
+"g:airline_section_b    %{airline#util#wrap(airline#extensions#hunks#get_hunks(),0)}%{airline#util#wrap(airline#extens ions#branch#get_head(),0)}  
+
+let g:SimpylFold_docstring_preview = 1
+au BufWinEnter *.py setlocal foldexpr=SimpylFold(v:lnum) foldmethod=expr
+au BufWinLeave *.py setlocal foldexpr< foldmethod<
+
+"au BufNewFile,BufRead *.py set tabstop=4 set softtabstop=4 set shiftwidth=4 set expandtab set autoindent set fileformat=unix
+
+Guifont Anonymous\ Pro:h11
+"GuiFont Liberation\ Mono:h10
+"GuiFont Liberation\ Mono:h10
+"GuiFont DejaVu\ Sans\ Mono:h10
+
+let g:netrw_scp_cmd='sshpass -p piomuc scp'
+"let g:deoplete#enable_at_startup = 1
+
+set lazyredraw
+let g:ackprg = 'ag --nogroup --nocolor --column'
 "let g:clang_format#style_options = {
             "\ "AccessModifierOffset" : -4,
             "\ "AllowShortIfStatementsOnASingleLine" : "true",

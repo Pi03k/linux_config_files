@@ -121,7 +121,8 @@ export EDITOR=nvim
 #export VIMRUNTIME=~/.vim/
 export NVIM_PYTHON_LOG_FILE=~/.vim.log
 
-[ -f ~/.fzf.bash ] && source ~/.fzf.bash
+[ -f ~/.fzf/shell/completion.bash ] && source ~/.fzf/shell/completion.bash
+[ -f ~/.fzf/shell/key-bindings.bash ] && source ~/.fzf/shell/key-bindings.bash
 
 export PATH=~/bin:${PATH}
 export XDG_CONFIG_HOME=$HOME/.config
@@ -156,9 +157,10 @@ export XDG_MUSIC_DIR=~/Muzyka/
 #export CCACHE_DIR=/tmp/ccache
 
 alias mejk='make -j `_ncpus` |& tee build.log'
-alias Make='make VERBOSE=1 -j `_ncpus` 2>make.err ; cscope -Rvbq -s /usr/include/ -s /usr/local/include/ ; ctags -R --c++-kinds=+p --fields=+iaS --extra=+q ./*' &>make.err
 alias ptags="ctags --tag-relative=yes --exclude=.svn --exclude=.git --links=no -R --language-force=Python --sort=yes --fields=fKSazt --extra=+fq --file-scope=yes --python-kinds=-i"
 alias pscope="find . -name '*.py' > cscope.files && cscope -CURbqv"
 alias egrep='egrep -R --color -n --exclude-dir=.svn --exclude-dir=.git'
-alias ggrep='egrep --include=*.hxx --include=*.cxx --include=*.cpp --include=*.c --include=*.h --include=*.hpp -R --color -n'
+alias ggrep='egrep --include=*.hxx --include=*.cxx --include=*.cpp --include=*.c --include=*.h --include=*.hpp -R --color -in'
 alias go='git checkout'
+
+[ -f ~/.fzf.bash ] && source ~/.fzf.bash
