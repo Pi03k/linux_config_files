@@ -62,6 +62,7 @@ Plug 'xolox/vim-misc'
 Plug 'xolox/vim-session'
 Plug 'maksimr/vim-jsbeautify'
 Plug 'mileszs/ack.vim'
+Plug 'morhetz/gruvbox'
 call plug#end()
 
 if has('cscope')
@@ -98,7 +99,8 @@ set fenc=utf-8
 set termencoding=utf-8
 set t_Co=256
 set background=dark
-colorscheme molokai
+"colorscheme molokai
+colorscheme gruvbox
 
 
 set autoindent
@@ -149,7 +151,6 @@ set noswapfile
 set nowritebackup
 set noshowmode
 set nrformats=hex
-set paste               " Paste from a windows or from vim
 set ruler
 set scrolloff=5
 set sessionoptions=blank,buffers,curdir,folds,help,tabpages,resize,winsize
@@ -553,7 +554,7 @@ au BufWinLeave *.py setlocal foldexpr< foldmethod<
 
 "au BufNewFile,BufRead *.py set tabstop=4 set softtabstop=4 set shiftwidth=4 set expandtab set autoindent set fileformat=unix
 
-GuiFont Anonymous\ Pro:h11
+"GuiFont Anonymous\ Pro:h11
 "GuiFont Liberation\ Mono:h10
 "GuiFont Liberation\ Mono:h10
 "GuiFont DejaVu\ Sans\ Mono:h10
