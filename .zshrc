@@ -1,5 +1,5 @@
 # Path to your oh-my-zsh installation.
-export ZSH=/home/user/.oh-my-zsh
+export ZSH=~/.oh-my-zsh
 
 # Set name of the theme to load.
 # Look in ~/.oh-my-zsh/themes/
@@ -52,8 +52,6 @@ COMPLETION_WAITING_DOTS="true"
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
 plugins=(git vi-mode)
-
-# User configuration
 
 export PATH="/home/user/.gem/ruby/2.3.0/bin/:/home/user/bin/:$PATH"
 export UI="/home/user/workspace/m3/maxwell/maxwell/phoneUI/DisplayGui/"

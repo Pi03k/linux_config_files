@@ -22,7 +22,7 @@ Plug 'djoshea/vim-autoread'
 Plug 'edkolev/promptline.vim'
 Plug 'groenewege/vim-less'
 Plug 'honza/dockerfile.vim'
-Plug 'junegunn/fzf' ", { 'dir': '~/.fzf', 'do': './install --all' }
+Plug 'junegunn/fzf' , { 'dir': '~/.fzf', 'do': './install --all' }
 Plug 'junegunn/seoul256.vim'
 Plug 'junegunn/vader.vim', { 'on': 'Vader', 'for': 'vader' }
 Plug 'junegunn/vim-after-object'
@@ -33,6 +33,7 @@ Plug 'justinmk/vim-gtfo'
 Plug 'kchmck/vim-coffee-script'
 Plug 'luochen1990/rainbow'
 Plug 'majutsushi/tagbar'
+Plug 'mbbill/undotree', { 'on': 'UndotreeToggle' }
 Plug 'mhinz/vim-signify'
 Plug 'nvie/vim-flake8'
 Plug 'octol/vim-cpp-enhanced-highlight'
@@ -113,7 +114,6 @@ set completeopt=menu,longest
 set completeopt=menuone,preview
 set confirm
 set cursorline
-set cursorline "wyszczególnienie bieżącej linii
 set diffopt+=iwhite
 set diffopt=filler,vertical
 set foldenable
@@ -137,6 +137,7 @@ set listchars=tab:\|\ ,
 set modelines=2
 set more
 set nobackup
+set nocompatible
 set nojoinspaces
 set magic
 set nonumber
@@ -552,7 +553,7 @@ au BufWinLeave *.py setlocal foldexpr< foldmethod<
 
 "au BufNewFile,BufRead *.py set tabstop=4 set softtabstop=4 set shiftwidth=4 set expandtab set autoindent set fileformat=unix
 
-Guifont Anonymous\ Pro:h11
+GuiFont Anonymous\ Pro:h11
 "GuiFont Liberation\ Mono:h10
 "GuiFont Liberation\ Mono:h10
 "GuiFont DejaVu\ Sans\ Mono:h10
