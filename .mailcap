@@ -1,1 +1,10 @@
-text/html; qutebrowser %s; nametemplate=%s.html; copiousoutput
+#text/html; qutebrowser %s; nametemplate=%s.html; copiousoutput
+text/html;\
+    qutebrowser '%s' & sleep 1;\
+    description=HTML Text;\
+    test=test -n "$DISPLAY";\
+    nametemplate=%s.html;
+text/html;\
+	w3m -T text/html -I %{charset} -dump %s;\
+	nametemplate=%s.html;\
+	copiousoutput
