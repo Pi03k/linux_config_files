@@ -121,6 +121,7 @@ alias go='git checkout'
 alias klin='find ./ -type d -name build -exec rm -rvf {} +'
 alias qb='LIBGL_ALWAYS_SOFTWARE=1 qutebrowser'
 alias tmux="tmux -2"
+alias p3='python3'
 
 autoload -Uz up-line-or-beginning-search down-line-or-beginning-search
 zle -N up-line-or-beginning-search
