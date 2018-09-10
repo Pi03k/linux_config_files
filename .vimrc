@@ -63,6 +63,7 @@ Plug 'xolox/vim-session'
 Plug 'maksimr/vim-jsbeautify'
 Plug 'mileszs/ack.vim'
 Plug 'morhetz/gruvbox'
+Plug 'davidhalter/jedi-vim'
 call plug#end()
 
 if has('cscope')
