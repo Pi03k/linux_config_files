@@ -1,0 +1,11 @@
+set from='pi03k87@gmail.com'
+set imap_keepalive = 900
+set folder = imaps://imap.gmail.com/
+set imap_user = 'pi03k87@gmail.com'
+set spoolfile = imaps://imap.gmail.com/INBOX
+set postponed = "+[Gmail]/Drafts"
+set postponed="imaps://imap.gmail.com/[Gmail]/Drafts"
+set smtp_url = smtp://$imap_user@smtp.gmail.com:587
+set record = ''
+source ~/.mutt/common.muttrc
+source ~/.mutt/gmail.credentials.muttrc

@@ -1,0 +1,23 @@
+set menu_scroll
+set pager_index_lines=6
+set certificate_file = "~/.mutt/certificates"
+set header_cache = "~/.mutt/cache/headers"
+set message_cachedir = "~/.mutt/cache/bodies"
+set move = no
+set realname='Piotr Mućko'
+set ssl_force_tls=yes
+set ssl_starttls=yes
+source ~/.mutt/mutt-colors-solarized/mutt-colors-solarized-dark-16.muttrc
+
+auto_view text/html
+alternative_order text/plain text/enriched text/html
+bind attach <return> view-mailcap
+
+set sleep_time = 0
+set smart_wrap
+set sort=reverse-date-received
+
+bind pager k previous-line #scroll inside the message rather than the index
+bind pager j next-line
+bind generic ^D next-page
+bind generic ^U previous-page

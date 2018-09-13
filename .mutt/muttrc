@@ -1,0 +1,8 @@
+set folder = 'imaps://poczta.interia.pl:993'
+set from='pi03k@poczta.fm'
+set imap_keepalive = 60
+set imap_user = 'pi03k@poczta.fm'
+set smtp_url = 'smtp://pi03k@poczta.interia.pl:587/'
+set spoolfile = '+INBOX'
+source ~/.mutt/common.muttrc
+source ~/.mutt/interia.credentials.muttrc
