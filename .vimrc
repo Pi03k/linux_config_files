@@ -544,9 +544,12 @@ let OmniCpp_MayCompleteArrow = 1 " autocomplete after ->
 let OmniCpp_MayCompleteScope = 1 " autocomplete after ::
 let OmniCpp_DefaultNamespaces = ["std", "_GLIBCXX_STD"]
 
+let g:airline_extensions = ['branch']
+let g:airline_symbols_ascii = 1
+let g:airline_skip_empty_sections = 1
 let g:airline#extensions#tabline#enabled = 0
 let g:airline_powerline_fonts = 1
-let g:airline_section_b = '' "airline#section#create_left
+let g:airline_highlighting_cache = 1
 "g:airline_section_b    %{airline#util#wrap(airline#extensions#hunks#get_hunks(),0)}%{airline#util#wrap(airline#extens ions#branch#get_head(),0)}  
 
 let g:SimpylFold_docstring_preview = 1
@@ -554,11 +557,6 @@ au BufWinEnter *.py setlocal foldexpr=SimpylFold(v:lnum) foldmethod=expr
 au BufWinLeave *.py setlocal foldexpr< foldmethod<
 
 "au BufNewFile,BufRead *.py set tabstop=4 set softtabstop=4 set shiftwidth=4 set expandtab set autoindent set fileformat=unix
-
-"GuiFont Anonymous\ Pro:h11
-"GuiFont Liberation\ Mono:h10
-"GuiFont Liberation\ Mono:h10
-"GuiFont DejaVu\ Sans\ Mono:h10
 
 let g:netrw_scp_cmd='sshpass -p piomuc scp'
 "let g:deoplete#enable_at_startup = 1
