@@ -23,6 +23,7 @@ Plug 'edkolev/promptline.vim'
 Plug 'groenewege/vim-less'
 Plug 'honza/dockerfile.vim'
 Plug 'junegunn/fzf' , { 'dir': '~/.fzf', 'do': './install --all' }
+Plug 'junegunn/fzf.vim'
 Plug 'junegunn/seoul256.vim'
 Plug 'junegunn/vader.vim', { 'on': 'Vader', 'for': 'vader' }
 Plug 'junegunn/vim-after-object'

@@ -81,7 +81,4 @@ export UI="/home/user/workspace/m3/maxwell/maxwell/phoneUI/DisplayGui/"
 . ~/.fzf/shell/key-bindings.zsh
 . ~/.fzf/shell/completion.zsh
 
-#. /usr/share/fzf/key-bindings.zsh
-#. /usr/share/fzf/completion.zsh
-
 unsetopt correct_all
