@@ -60,7 +60,6 @@ alias ptags="ctags --tag-relative=yes --exclude=.svn --exclude=.git --links=no -
 alias pscope="find . -name '*.py' > cscope.files && cscope -CURbqv"
 alias egrep='egrep -R --color -n --exclude-dir=.svn --exclude-dir=.git'
 alias ggrep="egrep --include='*.hxx' --include='*.cxx' --include='*.cpp' --include='*.c' --include='*.h' --include='*.hpp' -R --color -n -ie"
-alias go='git checkout'
 alias klin='find ./ -type d -name build -exec rm -rvf {} +'
 alias qb='LIBGL_ALWAYS_SOFTWARE=1 qutebrowser'
 alias tmux="tmux -2"
