@@ -105,7 +105,7 @@ set background=dark
 "colorscheme molokai
 colorscheme gruvbox
 
-
+set noexpandtab
 set autoindent
 set autoread
 set cindent
@@ -503,6 +503,8 @@ let g:loaded_matchparen = 1
 let g:pyclewn_args = "-l debug -f ~/pyclewn.log"
 let g:ctrlp_cmd = 'CtrlPMRUFiles'
 let g:ctrlp_working_path_mode = 'w'
+let g:ctrlp_user_command = 'ag %s -l --nocolor -g ""'
+let g:ctrlp_use_caching = 0
 
 let g:tagbar_autoclose=1
 

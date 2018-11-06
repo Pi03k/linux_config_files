@@ -54,7 +54,7 @@ alias l='ls -CF'
 # Add an "alert" alias for long running commands.  Use like so:
 #   sleep 10; alert
 alias alert='notify-send --urgency=low -i "$([ $? = 0 ] && echo terminal || echo error)" "$(history|tail -n1|sed -e '\''s/^\s*[0-9]\+\s*//;s/[;&|]\s*alert$//'\'')"'
-alias mejk='make -j `_ncpus` |& tee build.log'
+alias mejk='make -j $(python3 -c "import multiprocessing as mp; print(int(mp.cpu_count() * 1.5))") |& tee build.log'
 alias Make='make VERBOSE=1 -j `_ncpus` 2>make.err ; cscope -Rvbq -s /usr/include/ -s /usr/local/include/ ; ctags -R --c++-kinds=+p --fields=+iaS --extra=+q ./* &>make.err'
 alias ptags="ctags --tag-relative=yes --exclude=.svn --exclude=.git --links=no -R --language-force=Python --sort=yes --fields=fKSazt --extra=+fq --file-scope=yes --python-kinds=-i"
 alias pscope="find . -name '*.py' > cscope.files && cscope -CURbqv"
