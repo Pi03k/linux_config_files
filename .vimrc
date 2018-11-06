@@ -66,6 +66,7 @@ Plug 'maksimr/vim-jsbeautify'
 Plug 'mileszs/ack.vim'
 Plug 'morhetz/gruvbox'
 Plug 'davidhalter/jedi-vim'
+Plug 'elzr/vim-json'
 call plug#end()
 
 if has('cscope')
