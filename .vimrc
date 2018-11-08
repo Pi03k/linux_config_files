@@ -194,7 +194,7 @@ au BufNewFile,BufRead wscript* set filetype=python
 au BufNewFile,BufReadPost *.bb set syntax=python
 au BufRead,BufNewFile,BufReadPost *.cpp,*.c,*.cxx :YcmForceCompileAndDiagnostics
 au BufNewFile,BufReadPost *.pro,*.pri set ft=make
-au BufRead,BufNewFile *.log,*.LOG,*.err set ft=syslog
+au BufRead,BufNewFile *.log,*.LOG,*.err set ft=none
 au BufRead,BufNewFile SConstruct set syntax=python
 au BufRead *.py set smartindent cinwords=if,elif,else,for,while,try,except,finally,def,class
 au BufWritePre *.py normal m`:%s/\s\+$//e ``
