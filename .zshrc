@@ -66,6 +66,7 @@ alias tmux="tmux -2"
 alias p3='python3'
 alias gstu='git status -uno'
 alias kefir='yaourt -Syyua --devel --noconfirm'
+alias ebadu='git log --since=01.`date +%m.%Y` --author=mucko -p -w |& tee mucko.`date +%m.%Y`.patch'
 
 autoload -Uz up-line-or-beginning-search down-line-or-beginning-search
 zle -N up-line-or-beginning-search
