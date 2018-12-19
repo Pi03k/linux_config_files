@@ -148,5 +148,6 @@ bar {
 #exec --no-startup-id "i3-msg 'workspace 1; append_layout workspace-1.json'"
 #exec --no-startup-id i3-msg 'workspace 3:GoldenCheetah; append_layout golden_cheetah.json'
 exec --no-startup-id "/usr/bin/termite"
-exec --no-startup-id "/usr/bin/qutebrowser"
-exec --no-startup-id "/usr/bin/nitrogen --restore"
+exec --no-startup-id "/usr/bin/non-session-manager"
+exec --no-startup-id "/usr/bin/pavucontrol"
+#exec --no-startup-id "/usr/bin/qutebrowser"

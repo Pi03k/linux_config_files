@@ -4,7 +4,7 @@ text/html;\
     description=HTML Text;\
     test=test -n "$DISPLAY";\
     nametemplate=%s.html;
-text/html;\
-	w3m -T text/html -I %{charset} -dump %s;\
-	nametemplate=%s.html;\
-	copiousoutput
+#text/html;\
+#	w3m -T text/html -I %{charset} -dump %s;\
+#	nametemplate=%s.html;\
+#	copiousoutput
