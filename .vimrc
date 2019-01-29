@@ -563,6 +563,8 @@ let g:airline#extensions#branch#displayed_head_limit = 15
 let g:airline#extensions#branch#format = 2
 "g:airline_section_b    %{airline#util#wrap(airline#extensions#hunks#get_hunks(),0)}%{airline#util#wrap(airline#extens ions#branch#get_head(),0)}  
 
+
+let g:magit_discard_untracked_do_delete=1
 let g:SimpylFold_docstring_preview = 1
 au BufWinEnter *.py setlocal foldexpr=SimpylFold(v:lnum) foldmethod=expr
 au BufWinLeave *.py setlocal foldexpr< foldmethod<
