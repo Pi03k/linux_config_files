@@ -111,7 +111,6 @@ set autoindent
 set autoread
 set cindent
 set cino=(0,W0,l1,g1,t0
-set clipboard=unnamed
 set clipboard=unnamedplus,unnamed
 set colorcolumn=110
 set columns=110
@@ -128,6 +127,7 @@ set foldlevelstart=1
 set foldmethod=syntax
 set formatoptions+=tcqron1
 set go+=a               " Visual selection automatically copied to the clipboard
+set gdefault
 set grepformat=%f:%l:%c:%m,%f:%l:%m
 set grepprg=ack-grep
 set hidden
@@ -167,8 +167,8 @@ set spelllang=en
 set t_Co=256
 set tabstop=4
 set shiftwidth=4
-set textwidth=110 "automatyczne łamanie linii
-set textwidth=120
+set textwidth=100 "automatyczne łamanie linii
+set textwidth=100
 set timeoutlen=500
 set virtualedit=block
 set visualbell
@@ -181,7 +181,7 @@ set mouse=a
 if has('nvim')
 	let $FZF_DEFAULT_OPTS .= ' --inline-info'
 "	let $NVIM_TUI_ENABLE_TRUE_COLOR=1
-"	set termguicolors
+	set termguicolors
 endif
 
 
@@ -593,7 +593,7 @@ let g:clang_format#style_options = {
             \ "AllowShortIfStatementsOnASingleLine" : "false",
             \ "AlwaysBreakTemplateDeclarations" : "true",
             \ "Standard" : "C++11",
-            \ "ColumnLimit" : 100,
+            \ "ColumnLimit" : 90,
             \ "AlignConsecutiveDeclarations" : "true",
             \ "AlignConsecutiveAssignments" : "true",
             \ "BreakBeforeBraces" : "Allman",
