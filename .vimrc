@@ -67,6 +67,10 @@ Plug 'mileszs/ack.vim'
 Plug 'morhetz/gruvbox'
 Plug 'davidhalter/jedi-vim'
 Plug 'elzr/vim-json'
+Plug 'prabirshrestha/async.vim'
+Plug 'prabirshrestha/vim-lsp'
+Plug 'pdavydov108/vim-lsp-cquery'
+Plug 'ajh17/vimcompletesme'
 call plug#end()
 
 if has('cscope')
@@ -599,3 +603,11 @@ let g:clang_format#style_options = {
             \ "BreakBeforeBraces" : "Allman",
             \ "ConstructorInitializerAllOnOneLineOrOnePerLine" : "true",
             \ "AlignAfterOpenBracket" : "Align" }
+
+if executable('clangd')
+    au User lsp_setup call lsp#register_server({
+        \ 'name': 'clangd',
+        \ 'cmd': {server_info->['clangd']},
+        \ 'whitelist': ['c', 'cpp', 'objc', 'objcpp'],
+        \ })
+endif
