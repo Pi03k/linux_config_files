@@ -15,7 +15,6 @@ Plug 'Valloric/YouCompleteMe', { 'do': function('BuildYCM') }
 Plug 'Yggdroot/indentLine', { 'on': 'IndentLinesEnable' }
 Plug 'chrisbra/unicode.vim', { 'for': 'journal' }
 Plug 'ctrlpvim/ctrlp.vim'
-Plug 'dag/vim-fish'
 Plug 'davidoc/taskpaper.vim'
 Plug 'derekwyatt/vim-fswitch'
 Plug 'djoshea/vim-autoread'
@@ -53,8 +52,6 @@ Plug 'tpope/vim-eunuch'
 Plug 'jreybert/vimagit'
 Plug 'tpope/vim-fugitive'
 Plug 'tpope/vim-rails', { 'for': [] }
-Plug 'vim-airline/vim-airline'
-Plug 'vim-airline/vim-airline-themes'
 Plug 'vim-scripts/BufClose.vim'
 Plug 'vim-scripts/LargeFile'
 Plug 'vim-scripts/ReplaceWithRegister'
@@ -110,7 +107,7 @@ set background=dark
 "colorscheme molokai
 colorscheme gruvbox
 
-set noexpandtab
+set expandtab
 set autoindent
 set autoread
 set cindent
@@ -366,39 +363,10 @@ endfunction
 command! A call s:a()
 
 " ----------------------------------------------------------------------------
-" Todo
-" ----------------------------------------------------------------------------
-function! s:todo() abort
-  let entries = []
-  for cmd in ['git grep -n -e TODO -e FIXME -e XXX 2> /dev/null',
-            \ 'grep -rn -e TODO -e FIXME -e XXX * 2> /dev/null']
-    let lines = split(system(cmd), '\n')
-    if v:shell_error != 0 | continue | endif
-    for line in lines
-      let [fname, lno, text] = matchlist(line, '^\([^:]*\):\([^:]*\):\(.*\)')[1:3]
-      call add(entries, { 'filename': fname, 'lnum': lno, 'text': text })
-    endfor
-    break
-  endfor
-
-  if !empty(entries)
-    call setqflist(entries)
-    copen
-  endif
-endfunction
-command! Todo call s:todo()
-
-" ----------------------------------------------------------------------------
 " <Leader>I/A | Prepend/Append to all adjacent lines with same indentation
 " ----------------------------------------------------------------------------
 nmap <silent> <leader>I ^vio<C-V>I
 nmap <silent> <leader>A ^vio<C-V>$A
-
-" ----------------------------------------------------------------------------
-" vim-fugitive
-" ----------------------------------------------------------------------------
-nmap     <Leader>g :Gstatus<CR>gg<c-n>
-nnoremap <Leader>d :Gdiff<CR>
 
 " ----------------------------------------------------------------------------
 " ack.vim
@@ -436,8 +404,6 @@ nnoremap <silent><C-p> :CtrlPMRUFiles<CR>
 "Copy file name to clipboard register
 nnoremap <Leader>p :let @+=@%<CR>
 nmap <F2> :wa<Bar>exe "mksession! " . v:this_session<CR>
-" Toggle spell checking on and off with `\s`.
-nmap <silent> <leader>s :set spell!<CR>
 nmap ,d :b#<bar>bd#<CR> "Remove buffer without closing the view
 
 "nnoremap <Leader>q :call g:ClangUpdateQuickFix()<CR>
