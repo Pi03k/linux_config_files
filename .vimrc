@@ -248,15 +248,6 @@ nnoremap <tab>   <c-w>w
 nnoremap <S-tab> <c-w>W
 
 " ----------------------------------------------------------------------------
-" Markdown headings
-" ----------------------------------------------------------------------------
-nnoremap <leader>1 m`yypVr=``
-nnoremap <leader>2 m`yypVr-``
-nnoremap <leader>3 m`^i### <esc>``4l
-nnoremap <leader>4 m`^i#### <esc>``5l
-nnoremap <leader>5 m`^i##### <esc>``6l
-
-" ----------------------------------------------------------------------------
 " Moving lines
 " ----------------------------------------------------------------------------
 nnoremap <silent> <C-k> :move-2<cr>
@@ -306,60 +297,6 @@ endif
 nnoremap <leader>c :cclose<bar>lclose<cr>
 
 " ----------------------------------------------------------------------------
-" #gi / #gpi | go to next/previous indentation level
-" ----------------------------------------------------------------------------
-function! s:go_indent(times, dir)
-  for _ in range(a:times)
-    let l = line('.')
-    let x = line('$')
-    let i = s:indent_len(getline(l))
-    let e = empty(getline(l))
-
-    while l >= 1 && l <= x
-      let line = getline(l + a:dir)
-      let l += a:dir
-      if s:indent_len(line) != i || empty(line) != e
-        break
-      endif
-    endwhile
-    let l = min([max([1, l]), x])
-    execute 'normal! '. l .'G^'
-  endfor
-endfunction
-nnoremap <silent> gi :<c-u>call <SID>go_indent(v:count1, 1)<cr>
-nnoremap <silent> gpi :<c-u>call <SID>go_indent(v:count1, -1)<cr>
-
-" ----------------------------------------------------------------------------
-" <leader>bs | buf-search
-" ----------------------------------------------------------------------------
-nnoremap <leader>bs :cex []<BAR>bufdo vimgrepadd @@g %<BAR>cw<s-left><s-left><right>
-
-" ----------------------------------------------------------------------------
-" :A
-" ----------------------------------------------------------------------------
-function! s:a()
-  let name = expand('%:r')
-  let ext = tolower(expand('%:e'))
-  let sources = ['c', 'cc', 'cpp', 'cxx']
-  let headers = ['h', 'hh', 'hpp', 'hxx']
-  for pair in [[sources, headers], [headers, sources]]
-    let [set1, set2] = pair
-    if index(set1, ext) >= 0
-      for h in set2
-        let aname = name.'.'.h
-        for a in [aname, toupper(aname)]
-          if filereadable(a)
-            execute 'e' a
-            return
-          end
-        endfor
-      endfor
-    endif
-  endfor
-endfunction
-command! A call s:a()
-
-" ----------------------------------------------------------------------------
 " <Leader>I/A | Prepend/Append to all adjacent lines with same indentation
 " ----------------------------------------------------------------------------
 nmap <silent> <leader>I ^vio<C-V>I
@@ -393,8 +330,7 @@ map <F12> :set tags+=./tags <CR> :cs reset<CR> :cs add cscope.out<CR>
 map <F12> :cs add cscope.out<CR>
 
 nnoremap <silent><C-p> :CtrlPMRUFiles<CR>
-"Copy file name to clipboard register
-nnoremap <Leader>p :let @+=@%<CR>
+nnoremap <Leader>p :let @+=@%<CR> "Copy file name to clipboard register
 nmap <F2> :wa<Bar>exe "mksession! " . v:this_session<CR>
 nmap ,d :b#<bar>bd#<CR> "Remove buffer without closing the view
 
@@ -413,6 +349,7 @@ omap <leader><tab> <plug>(fzf-maps-o)
 "\ 'sink': 'Explore'})
 
 let g:pyclewn_args="--gdb=async -m 20"
+let g:pyclewn_args = "-l debug -f ~/pyclewn.log"
 let g:proj_window_width = 1
 let g:proj_window_increment = 80
 
@@ -428,30 +365,22 @@ let g:NERDTreeChDirMode=2
 "let g:UltiSnipsSnippetDirectories=["UltiSnips", "my_snippets"]
 
 let g:syntastic_always_populate_loc_list = 1
-
-" Trigger configuration. Do not use <tab> if you use https://github.com/Valloric/YouCompleteMe.
-"let g:UltiSnipsExpandTrigger="<tab>"
-"let g:UltiSnipsJumpForwardTrigger="<c-b>"
-"let g:UltiSnipsJumpBackwardTrigger="<c-z>"
 let g:xml_syntax_folding = 1
 let g:loaded_matchparen = 1
 
 "let g:pyclewn_terminal = "xterm, -e"
-let g:pyclewn_args = "-l debug -f ~/pyclewn.log"
 let g:ctrlp_cmd = 'CtrlPMRUFiles'
 let g:ctrlp_working_path_mode = 'w'
 let g:ctrlp_user_command = 'ag %s -l --nocolor -g ""'
 let g:ctrlp_use_caching = 0
+let g:ctrlp_map = '<c-p>'
+let g:ctrlp_regexp = 0
 
 let g:tagbar_autoclose=1
 
 let g:ackprg='ack-grep\ -a\ -H\ --nocolor\ --nogroup'
-"let Grep_Path='ack-grep'
-"let Grep_Path='ack-grep\ -a\ -H\ --nocolor\ --nogroup'
 
 let g:matchparen_insert_timeout=5
-let g:ctrlp_map = '<c-p>'
-let g:ctrlp_regexp = 0
 
 let g:session_directory = "~/.vim/sessions/"
 let g:session_autoload = "no"
@@ -477,16 +406,12 @@ let g:airline#extensions#branch#displayed_head_limit = 15
 let g:airline#extensions#branch#format = 2
 "g:airline_section_b    %{airline#util#wrap(airline#extensions#hunks#get_hunks(),0)}%{airline#util#wrap(airline#extens ions#branch#get_head(),0)}  
 
-
 let g:magit_discard_untracked_do_delete=1
 let g:SimpylFold_docstring_preview = 1
 au BufWinEnter *.py setlocal foldexpr=SimpylFold(v:lnum) foldmethod=expr
 au BufWinLeave *.py setlocal foldexpr< foldmethod<
 
-"au BufNewFile,BufRead *.py set tabstop=4 set softtabstop=4 set shiftwidth=4 set expandtab set autoindent set fileformat=unix
-
-let g:netrw_scp_cmd='sshpass -p piomuc scp'
-"let g:deoplete#enable_at_startup = 1
+let g:deoplete#enable_at_startup = 1
 
 set lazyredraw
 let g:ackprg = 'ag --nogroup --nocolor --column'
