@@ -1,9 +1,4 @@
 scriptencoding utf-8
-function! BuildYCM(info)
-  if a:info.status == 'installed' || a:info.force
-    !python2 ./install.py --clang-completer
-  endif
-endfunction
 
 call plug#begin('~/.vim/plugged')
 Plug 'AndrewRadev/linediff.vim'
@@ -11,7 +6,6 @@ Plug 'AndrewRadev/splitjoin.vim'
 Plug 'ConradIrwin/vim-bracketed-paste'
 Plug 'SirVer/ultisnips' | Plug 'honza/vim-snippets'
 Plug 'SirVer/ultisnips', { 'on': '<Plug>(tab)' }
-Plug 'Valloric/YouCompleteMe', { 'do': function('BuildYCM') }
 Plug 'Yggdroot/indentLine', { 'on': 'IndentLinesEnable' }
 Plug 'chrisbra/unicode.vim', { 'for': 'journal' }
 Plug 'ctrlpvim/ctrlp.vim'
@@ -38,7 +32,6 @@ Plug 'mhinz/vim-signify'
 Plug 'nvie/vim-flake8'
 Plug 'octol/vim-cpp-enhanced-highlight'
 Plug 'pangloss/vim-javascript'
-Plug 'rdnetto/YCM-Generator', { 'branch': 'stable' }
 Plug 'rhysd/vim-clang-format'
 Plug 'rust-lang/rust.vim'
 Plug 'scrooloose/nerdcommenter'
@@ -64,10 +57,19 @@ Plug 'mileszs/ack.vim'
 Plug 'morhetz/gruvbox'
 Plug 'davidhalter/jedi-vim'
 Plug 'elzr/vim-json'
+Plug 'vim-airline/vim-airline'
+Plug 'vim-airline/vim-airline-themes'
+
+"Language Server Protocol and autocompletion
 Plug 'prabirshrestha/async.vim'
 Plug 'prabirshrestha/vim-lsp'
 Plug 'pdavydov108/vim-lsp-cquery'
-Plug 'ajh17/vimcompletesme'
+Plug 'ryanolsonx/vim-lsp-python'
+"Plug 'ncm2/ncm2'
+"Plug 'ncm2/ncm2-vim-lsp'
+Plug 'roxma/nvim-yarp'
+Plug 'neoclide/coc.nvim', {'tag': '*', 'do': { -> coc#util#install()}}
+
 call plug#end()
 
 if has('cscope')
@@ -116,8 +118,7 @@ set clipboard=unnamedplus,unnamed
 set colorcolumn=110
 set columns=110
 set comments=sl:/*,mb:\ *,elx:\ */
-set completeopt=menu,longest
-set completeopt=menuone,preview
+set completeopt=menu,longest,menuone,preview
 set confirm
 set cursorline
 set diffopt+=iwhite
@@ -193,7 +194,6 @@ endif
 au BufNewFile,BufRead *.vshdr,*.fshdr,*.frag,*.vert,*.fp,*.vp,*.glsl setf glsl 
 au BufNewFile,BufRead wscript* set filetype=python
 au BufNewFile,BufReadPost *.bb set syntax=python
-au BufRead,BufNewFile,BufReadPost *.cpp,*.c,*.cxx :YcmForceCompileAndDiagnostics
 au BufNewFile,BufReadPost *.pro,*.pri set ft=make
 au BufRead,BufNewFile *.log,*.LOG,*.err set ft=none
 au BufRead,BufNewFile SConstruct set syntax=python
@@ -201,12 +201,9 @@ au BufRead *.py set smartindent cinwords=if,elif,else,for,while,try,except,final
 au BufWritePre *.py normal m`:%s/\s\+$//e ``
 au FileType c,cpp,objc nnoremap <buffer><Leader>cf :<C-u>ClangFormat<CR>
 au FileType c,cpp,objc vnoremap <buffer><Leader>cf :ClangFormat<CR>
-"au BufWrite *.cpp,*.hpp,*.h :ClangFormat
 au FileType python set omnifunc=pythoncomplete#Complete
 au FilterWritePre * if &diff | setlocal wrap< | endif
 au Filetype gitcommit setlocal spell textwidth=72
-"au! User YouCompleteMe if !has('vim_starting') | call youcompleteme#Enable() | endif
-"au! User indentLine doautocmd indentLine Syntax
 
 noremap <C-F> <C-D>
 noremap <C-B> <C-U>
@@ -394,11 +391,6 @@ nnoremap <F8> :TagbarToggle<CR>
 nnoremap <F9> :!pkill -9 -f pyclewn <CR> :Pyclewn<CR> :Csource ./.pyclewn<CR>
 map <F12> :set tags+=./tags <CR> :cs reset<CR> :cs add cscope.out<CR>
 map <F12> :cs add cscope.out<CR>
-nnoremap <leader>y :YcmForceCompileAndDiagnostics<cr>
-nnoremap <leader>g :YcmCompleter GoTo<CR>
-nnoremap <leader>pd :YcmCompleter GoToDefinition<CR>
-nnoremap <leader>pc :YcmCompleter GoToDeclaration<CR>
-nnoremap <leader>pf :YcmCompleter GoToDefinitionElseDeclaration<CR>
 
 nnoremap <silent><C-p> :CtrlPMRUFiles<CR>
 "Copy file name to clipboard register
@@ -406,11 +398,6 @@ nnoremap <Leader>p :let @+=@%<CR>
 nmap <F2> :wa<Bar>exe "mksession! " . v:this_session<CR>
 nmap ,d :b#<bar>bd#<CR> "Remove buffer without closing the view
 
-"nnoremap <Leader>q :call g:ClangUpdateQuickFix()<CR>
-"nnoremap <Leader>r :call ClangGetReferences()<CR>
-"nnoremap <Leader>d :call ClangGetDeclarations()<CR>
-"nnoremap <Leader>s :call ClangGetSubclasses()<CR>
-"
 inoremap <expr> <c-x><c-t> fzf#complete('tmuxwords.rb --all-but-current --scroll 500 --min 5')
 imap <c-x><c-k> <plug>(fzf-complete-word)
 imap <c-x><c-f> <plug>(fzf-complete-path)
@@ -426,27 +413,6 @@ omap <leader><tab> <plug>(fzf-maps-o)
 "\ 'sink': 'Explore'})
 
 let g:pyclewn_args="--gdb=async -m 20"
-"set completefunc=ClangComplete
-"let g:SuperTabDefaultCompletionType = "<c-x><c-u>"
-"let g:SuperTabDefaultCompletionType = "context"
-"let g:clang_auto_select=1
-"let g:clang_complete_auto=1
-"let g:clang_complete_copen=1
-"let g:clang_hl_errors=1
-"let g:clang_periodic_quickfix=1
-"let g:clang_snippets=1
-"let g:clang_snippets_engine='snipmate'
-"let g:clang_conceal_snippets=1
-"let g:clang_exec="clang"
-""let g:clang_user_options='-std=c++11 -stdlib=libc++ -x c++ -Wno-system-headers 2> NULL || exit 0'
-"let g:clang_user_options='-std=c++11 -stdlib=libc++ -x c++ -Wno-system-headers'
-""let g:clang_auto_user_options="path, ~/.clang_complete, gcc"
-"let g:clang_use_library=1
-"let g:clang_sort_algo="priority"
-"let g:clang_complete_macros=1
-"let g:clang_complete_patterns=0
-"let g:clang_trailing_placeholder=1
-"let g:clic_filename="/media/fpwork/index/index.db"
 let g:proj_window_width = 1
 let g:proj_window_increment = 80
 
@@ -495,29 +461,7 @@ let g:cpp_class_scope_highlight = 1
 let g:cpp_experimental_template_highlight = 1
 let g:tagbar_width = 60
 
-syntax on
 let g:rainbow_active = 1
-
-let g:ycm_always_populate_location_list = 1
-let g:ycm_auto_trigger = 0
-"let g:ycm_cache_omnifunc = 0
-"let g:ycm_collect_identifiers_from_tags_files = 1
-"let g:ycm_goto_buffer_command = 'new-tab'
-"let g:ycm_key_invoke_completion = '<C-tab>'
-"let g:ycm_seed_identifiers_with_syntax = 1
-"let g:ycm_use_ultisnips_completer = 1
-let g:ycm_error_symbol = 'EE'
-let g:ycm_warning_symbol = 'WW'
-
-" OmniCppComplete
-let OmniCpp_NamespaceSearch = 1
-let OmniCpp_GlobalScopeSearch = 1
-let OmniCpp_ShowAccess = 1
-let OmniCpp_ShowPrototypeInAbbr = 1 " show function parameters
-let OmniCpp_MayCompleteDot = 1 " autocomplete after .
-let OmniCpp_MayCompleteArrow = 1 " autocomplete after ->
-let OmniCpp_MayCompleteScope = 1 " autocomplete after ::
-let OmniCpp_DefaultNamespaces = ["std", "_GLIBCXX_STD"]
 
 let g:airline#extensions#branch#enabled = 1
 let g:airline#extensions#hunks#enabled = 1
@@ -571,9 +515,94 @@ let g:clang_format#style_options = {
             \ "AlignAfterOpenBracket" : "Align" }
 
 if executable('clangd')
+	augroup lsp_clangd
+		autocmd!
+		autocmd User lsp_setup call lsp#register_server({
+			\ 'name': 'clangd',
+			\ 'cmd': {server_info->['clangd']},
+			\ 'whitelist': ['c', 'cpp', 'objc', 'objcpp'],
+			\ })
+		autocmd FileType c setlocal omnifunc=lsp#complete
+		autocmd FileType cpp setlocal omnifunc=lsp#complete
+		autocmd FileType objc setlocal omnifunc=lsp#complete
+		autocmd FileType objcpp setlocal omnifunc=lsp#complete
+	augroup end
+endif
+
+if executable('pyls')
     au User lsp_setup call lsp#register_server({
-        \ 'name': 'clangd',
-        \ 'cmd': {server_info->['clangd']},
-        \ 'whitelist': ['c', 'cpp', 'objc', 'objcpp'],
+        \ 'name': 'pyls',
+        \ 'cmd': {server_info->['pyls']},
+        \ 'whitelist': ['python'],
+        \ 'workspace_config': {'pyls': {'plugins': {'pydocstyle': {'enabled': v:true}}}}
         \ })
 endif
+
+" Use tab for trigger completion with characters ahead and navigate.
+" Use command ':verbose imap <tab>' to make sure tab is not mapped by other plugin.
+inoremap <silent><expr> <TAB>
+      \ pumvisible() ? "\<C-n>" :
+      \ <SID>check_back_space() ? "\<TAB>" :
+      \ coc#refresh()
+inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
+
+function! s:check_back_space() abort
+  let col = col('.') - 1
+  return !col || getline('.')[col - 1]  =~# '\s'
+endfunction
+
+" Use <c-space> for trigger completion.
+inoremap <silent><expr> <c-space> coc#refresh()
+
+" Use <cr> for confirm completion, `<C-g>u` means break undo chain at current position.
+" Coc only does snippet and additional edit on confirm.
+inoremap <expr> <cr> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
+
+" Use `[c` and `]c` for navigate diagnostics
+nmap <silent> [c <Plug>(coc-diagnostic-prev)
+nmap <silent> ]c <Plug>(coc-diagnostic-next)
+
+" Remap keys for gotos
+nmap <silent> gd <Plug>(coc-definition)
+nmap <silent> gy <Plug>(coc-type-definition)
+nmap <silent> gi <Plug>(coc-implementation)
+nmap <silent> gr <Plug>(coc-references)
+
+" Use K for show documentation in preview window
+nnoremap <silent> K :call <SID>show_documentation()<CR>
+
+function! s:show_documentation()
+  if &filetype == 'vim'
+    execute 'h '.expand('<cword>')
+  else
+    call CocAction('doHover')
+  endif
+endfunction
+
+" Highlight symbol under cursor on CursorHold
+autocmd CursorHold * silent call CocActionAsync('highlight')
+
+" Remap for rename current word
+nmap <leader>rn <Plug>(coc-rename)
+
+" Remap for format selected region
+vmap <leader>f  <Plug>(coc-format-selected)
+nmap <leader>f  <Plug>(coc-format-selected)
+
+" Using CocList
+" Show all diagnostics
+nnoremap <silent> <space>a  :<C-u>CocList diagnostics<cr>
+" Manage extensions
+nnoremap <silent> <space>e  :<C-u>CocList extensions<cr>
+" Show commands
+nnoremap <silent> <space>c  :<C-u>CocList commands<cr>
+" Find symbol of current document
+nnoremap <silent> <space>o  :<C-u>CocList outline<cr>
+" Search workspace symbols
+nnoremap <silent> <space>s  :<C-u>CocList -I symbols<cr>
+" Do default action for next item.
+nnoremap <silent> <space>j  :<C-u>CocNext<CR>
+" Do default action for previous item.
+nnoremap <silent> <space>k  :<C-u>CocPrev<CR>
+" Resume latest coc list
+nnoremap <silent> <space>p  :<C-u>CocListResume<CR>
