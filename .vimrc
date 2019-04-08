@@ -45,6 +45,7 @@ Plug 'tpope/vim-eunuch'
 Plug 'jreybert/vimagit'
 Plug 'tpope/vim-fugitive'
 Plug 'tpope/vim-rails', { 'for': [] }
+Plug 'tpope/vim-unimpaired'
 Plug 'vim-scripts/BufClose.vim'
 Plug 'vim-scripts/LargeFile'
 Plug 'vim-scripts/ReplaceWithRegister'
@@ -59,14 +60,6 @@ Plug 'davidhalter/jedi-vim'
 Plug 'elzr/vim-json'
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
-
-"Language Server Protocol and autocompletion
-Plug 'prabirshrestha/async.vim'
-Plug 'prabirshrestha/vim-lsp'
-Plug 'pdavydov108/vim-lsp-cquery'
-Plug 'ryanolsonx/vim-lsp-python'
-"Plug 'ncm2/ncm2'
-"Plug 'ncm2/ncm2-vim-lsp'
 Plug 'roxma/nvim-yarp'
 Plug 'neoclide/coc.nvim', {'tag': '*', 'do': { -> coc#util#install()}}
 
@@ -199,8 +192,6 @@ au BufRead,BufNewFile *.log,*.LOG,*.err set ft=none
 au BufRead,BufNewFile SConstruct set syntax=python
 au BufRead *.py set smartindent cinwords=if,elif,else,for,while,try,except,finally,def,class
 au BufWritePre *.py normal m`:%s/\s\+$//e ``
-au FileType c,cpp,objc nnoremap <buffer><Leader>cf :<C-u>ClangFormat<CR>
-au FileType c,cpp,objc vnoremap <buffer><Leader>cf :ClangFormat<CR>
 au FileType python set omnifunc=pythoncomplete#Complete
 au FilterWritePre * if &diff | setlocal wrap< | endif
 au Filetype gitcommit setlocal spell textwidth=72
@@ -232,12 +223,9 @@ nnoremap [q :cprev<cr>zz
 nnoremap ]l :lnext<cr>zz
 nnoremap [l :lprev<cr>zz
 
-" args
+" args and buffers switching
 nnoremap ]p :next<cr>
 nnoremap [p :previous<cr>
-" ----------------------------------------------------------------------------
-" Buffers
-" ----------------------------------------------------------------------------
 nnoremap ]b :bnext<cr>
 nnoremap [b :bprev<cr>
 
@@ -246,20 +234,6 @@ nnoremap [b :bprev<cr>
 " ----------------------------------------------------------------------------
 nnoremap <tab>   <c-w>w
 nnoremap <S-tab> <c-w>W
-
-" ----------------------------------------------------------------------------
-" Moving lines
-" ----------------------------------------------------------------------------
-nnoremap <silent> <C-k> :move-2<cr>
-nnoremap <silent> <C-j> :move+<cr>
-nnoremap <silent> <C-h> <<
-nnoremap <silent> <C-l> >>
-xnoremap <silent> <C-k> :move-2<cr>gv
-xnoremap <silent> <C-j> :move'>+<cr>gv
-xnoremap <silent> <C-h> <gv
-xnoremap <silent> <C-l> >gv
-xnoremap < <gv
-xnoremap > >gv
 
 " ----------------------------------------------------------------------------
 " Cscope mappings
@@ -297,12 +271,6 @@ endif
 nnoremap <leader>c :cclose<bar>lclose<cr>
 
 " ----------------------------------------------------------------------------
-" <Leader>I/A | Prepend/Append to all adjacent lines with same indentation
-" ----------------------------------------------------------------------------
-nmap <silent> <leader>I ^vio<C-V>I
-nmap <silent> <leader>A ^vio<C-V>$A
-
-" ----------------------------------------------------------------------------
 " ack.vim
 " ----------------------------------------------------------------------------
 if executable('ag')
@@ -317,7 +285,9 @@ nnoremap <leader>ss :SaveSession
 nnoremap <leader>sd :DeleteSession<CR>
 nnoremap <leader>sc :CloseSession<CR>
 
+"Copy file name to clipboard register
 noremap <leader>p :let @+=expand("%:p")<CR>
+"nnoremap <Leader>p :let @+=@%<CR>
 
 map <C-\> :tab split<CR>:exec("tag ".expand("<cword>"))<CR>
 
@@ -327,11 +297,8 @@ nmap <F7> :NERDTreeToggle<CR>
 nnoremap <F8> :TagbarToggle<CR>
 nnoremap <F9> :!pkill -9 -f pyclewn <CR> :Pyclewn<CR> :Csource ./.pyclewn<CR>
 map <F12> :set tags+=./tags <CR> :cs reset<CR> :cs add cscope.out<CR>
-map <F12> :cs add cscope.out<CR>
 
 nnoremap <silent><C-p> :CtrlPMRUFiles<CR>
-nnoremap <Leader>p :let @+=@%<CR> "Copy file name to clipboard register
-nmap <F2> :wa<Bar>exe "mksession! " . v:this_session<CR>
 nmap ,d :b#<bar>bd#<CR> "Remove buffer without closing the view
 
 inoremap <expr> <c-x><c-t> fzf#complete('tmuxwords.rb --all-but-current --scroll 500 --min 5')
@@ -404,7 +371,6 @@ let g:airline_powerline_fonts = 1
 let g:airline_highlighting_cache = 1
 let g:airline#extensions#branch#displayed_head_limit = 15
 let g:airline#extensions#branch#format = 2
-"g:airline_section_b    %{airline#util#wrap(airline#extensions#hunks#get_hunks(),0)}%{airline#util#wrap(airline#extens ions#branch#get_head(),0)}  
 
 let g:magit_discard_untracked_do_delete=1
 let g:SimpylFold_docstring_preview = 1
@@ -439,20 +405,6 @@ let g:clang_format#style_options = {
             \ "ConstructorInitializerAllOnOneLineOrOnePerLine" : "true",
             \ "AlignAfterOpenBracket" : "Align" }
 
-if executable('clangd')
-	augroup lsp_clangd
-		autocmd!
-		autocmd User lsp_setup call lsp#register_server({
-			\ 'name': 'clangd',
-			\ 'cmd': {server_info->['clangd']},
-			\ 'whitelist': ['c', 'cpp', 'objc', 'objcpp'],
-			\ })
-		autocmd FileType c setlocal omnifunc=lsp#complete
-		autocmd FileType cpp setlocal omnifunc=lsp#complete
-		autocmd FileType objc setlocal omnifunc=lsp#complete
-		autocmd FileType objcpp setlocal omnifunc=lsp#complete
-	augroup end
-endif
 
 if executable('pyls')
     au User lsp_setup call lsp#register_server({
