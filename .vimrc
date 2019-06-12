@@ -11,7 +11,6 @@ Plug 'chrisbra/unicode.vim', { 'for': 'journal' }
 Plug 'ctrlpvim/ctrlp.vim'
 Plug 'davidoc/taskpaper.vim'
 Plug 'derekwyatt/vim-fswitch'
-Plug 'djoshea/vim-autoread'
 Plug 'edkolev/promptline.vim'
 Plug 'groenewege/vim-less'
 Plug 'honza/dockerfile.vim'
@@ -48,7 +47,6 @@ Plug 'tpope/vim-rails', { 'for': [] }
 Plug 'tpope/vim-unimpaired'
 Plug 'vim-scripts/BufClose.vim'
 Plug 'vim-scripts/LargeFile'
-Plug 'vim-scripts/ReplaceWithRegister'
 Plug 'vim-scripts/indentpython.vim'
 Plug 'vim-scripts/syslog-syntax-file'
 Plug 'xolox/vim-misc'
@@ -102,7 +100,7 @@ set background=dark
 "colorscheme molokai
 colorscheme gruvbox
 
-set expandtab
+set noexpandtab
 set autoindent
 set autoread
 set cindent
@@ -124,7 +122,6 @@ set formatoptions+=tcqron1
 set go+=a               " Visual selection automatically copied to the clipboard
 set gdefault
 set grepformat=%f:%l:%c:%m,%f:%l:%m
-set grepprg=ack-grep
 set hidden
 set history=3000
 set hls
@@ -138,7 +135,6 @@ set listchars=tab:\|\ ,
 set modelines=2
 set more
 set nobackup
-set nocompatible
 set nojoinspaces
 set magic
 set nonumber
@@ -159,10 +155,8 @@ set showmatch
 set showtabline=0 " Always display the tabline, even if there is only one tab
 set smartindent
 set spelllang=en
-set t_Co=256
 set tabstop=4
 set shiftwidth=4
-set textwidth=100 "automatyczne łamanie linii
 set textwidth=100
 set timeoutlen=500
 set virtualedit=block
@@ -173,17 +167,13 @@ set wildmode=list:full
 set wrapmargin=0
 set mouse=a
 
-if has('nvim')
-	let $FZF_DEFAULT_OPTS .= ' --inline-info'
-"	let $NVIM_TUI_ENABLE_TRUE_COLOR=1
-	set termguicolors
-endif
-
+let $FZF_DEFAULT_OPTS .= ' --inline-info'
+set termguicolors
+set guicursor=
+set noautoread
 
 " automatically open and close the popup menu / preview window
 " au CursorMovedI,InsertLeave * if pumvisible() == 0|silent! pclose|endif
-"au VimEnter * if &diff | execute 'windo set wrap' | endif
-"au BufWrite *.cpp,*.hpp,*.h :ClangFormat
 au BufNewFile,BufRead *.vshdr,*.fshdr,*.frag,*.vert,*.fp,*.vp,*.glsl setf glsl 
 au BufNewFile,BufRead wscript* set filetype=python
 au BufNewFile,BufReadPost *.bb set syntax=python
@@ -194,6 +184,7 @@ au BufRead *.py set smartindent cinwords=if,elif,else,for,while,try,except,final
 au BufWritePre *.py normal m`:%s/\s\+$//e ``
 au FileType python set omnifunc=pythoncomplete#Complete
 au FilterWritePre * if &diff | setlocal wrap< | endif
+"au VimEnter * if &diff | execute 'windo set wrap' | endif
 au Filetype gitcommit setlocal spell textwidth=72
 
 noremap <C-F> <C-D>
@@ -202,12 +193,6 @@ noremap <C-B> <C-U>
 " Tag stack
 nnoremap g[ :pop<cr>
 
-" Jump list (to newer position)
-"nnoremap <C-p> <C-i>
-
-" ----------------------------------------------------------------------------
-" nvim
-" ----------------------------------------------------------------------------
 if has('nvim')
   tnoremap <a-a> <esc>a
   tnoremap <a-b> <esc>b
@@ -215,19 +200,10 @@ if has('nvim')
   tnoremap <a-f> <esc>f
 endif
 
-" ----------------------------------------------------------------------------
-" Quickfix
-" ----------------------------------------------------------------------------
 nnoremap ]q :cnext<cr>zz
 nnoremap [q :cprev<cr>zz
 nnoremap ]l :lnext<cr>zz
 nnoremap [l :lprev<cr>zz
-
-" args and buffers switching
-nnoremap ]p :next<cr>
-nnoremap [p :previous<cr>
-nnoremap ]b :bnext<cr>
-nnoremap [b :bprev<cr>
 
 " ----------------------------------------------------------------------------
 " <tab> / <s-tab> | Circular windows navigation
@@ -265,10 +241,8 @@ if has("cscope")
   nnoremap <C-\>n :cs find t new <C-R>=expand("<cword>")<CR><CR>
 endif
 
-" ----------------------------------------------------------------------------
-" <Leader>c Close quickfix/location window
-" ----------------------------------------------------------------------------
-nnoremap <leader>c :cclose<bar>lclose<cr>
+nnoremap <leader>c :cclose<bar>lclose<cr> " Close quickfix/location window
+map  <leader>t :Tags <C-R>=expand("<cword>")<CR><CR>
 
 " ----------------------------------------------------------------------------
 " ack.vim
@@ -287,9 +261,6 @@ nnoremap <leader>sc :CloseSession<CR>
 
 "Copy file name to clipboard register
 noremap <leader>p :let @+=expand("%:p")<CR>
-"nnoremap <Leader>p :let @+=@%<CR>
-
-map <C-\> :tab split<CR>:exec("tag ".expand("<cword>"))<CR>
 
 map <A-]> :vsp <CR>:exec("tag ".expand("<cword>"))<CR>
 
@@ -299,7 +270,6 @@ nnoremap <F9> :!pkill -9 -f pyclewn <CR> :Pyclewn<CR> :Csource ./.pyclewn<CR>
 map <F12> :set tags+=./tags <CR> :cs reset<CR> :cs add cscope.out<CR>
 
 nnoremap <silent><C-p> :CtrlPMRUFiles<CR>
-nmap ,d :b#<bar>bd#<CR> "Remove buffer without closing the view
 
 inoremap <expr> <c-x><c-t> fzf#complete('tmuxwords.rb --all-but-current --scroll 500 --min 5')
 imap <c-x><c-k> <plug>(fzf-complete-word)
@@ -309,11 +279,6 @@ imap <c-x><c-l> <plug>(fzf-complete-line)
 nmap <leader><tab> <plug>(fzf-maps-n)
 xmap <leader><tab> <plug>(fzf-maps-x)
 omap <leader><tab> <plug>(fzf-maps-o)
-"command! Plugs call fzf#run({
-"\ 'source': map(sort(keys(g:plugs)), 'g:plug_home."/".v:val'),
-"\ 'options': '--delimiter / --nth -1',
-"\ 'down': '~40%',
-"\ 'sink': 'Explore'})
 
 let g:pyclewn_args="--gdb=async -m 20"
 let g:pyclewn_args = "-l debug -f ~/pyclewn.log"
@@ -322,20 +287,11 @@ let g:proj_window_increment = 80
 
 let g:NERDTreeWinSize=35
 let g:NERDTreeChDirMode=2
-"let g:python_host_prog = '/usr/bin/python2'
-"let g:python3_host_prog = '/usr/bin/python3'
-
-"let g:UltiSnipsUsePythonVersion = 2
-"let g:UltiSnipsExpandTrigger="<C-e>"
-"let g:UltiSnipsJumpForwardTrigger="<c-b>"
-"let g:UltiSnipsJumpBackwardTrigger="<c-z>"
-"let g:UltiSnipsSnippetDirectories=["UltiSnips", "my_snippets"]
 
 let g:syntastic_always_populate_loc_list = 1
 let g:xml_syntax_folding = 1
 let g:loaded_matchparen = 1
 
-"let g:pyclewn_terminal = "xterm, -e"
 let g:ctrlp_cmd = 'CtrlPMRUFiles'
 let g:ctrlp_working_path_mode = 'w'
 let g:ctrlp_user_command = 'ag %s -l --nocolor -g ""'
@@ -344,8 +300,6 @@ let g:ctrlp_map = '<c-p>'
 let g:ctrlp_regexp = 0
 
 let g:tagbar_autoclose=1
-
-let g:ackprg='ack-grep\ -a\ -H\ --nocolor\ --nogroup'
 
 let g:matchparen_insert_timeout=5
 
@@ -381,15 +335,6 @@ let g:deoplete#enable_at_startup = 1
 
 set lazyredraw
 let g:ackprg = 'ag --nogroup --nocolor --column'
-"let g:clang_format#style_options = {
-            "\ "AccessModifierOffset" : -4,
-            "\ "AllowShortIfStatementsOnASingleLine" : "true",
-            "\ "AlwaysBreakTemplateDeclarations" : "true",
-            "\ "Standard" : "Cpp03",
-            "\ "BreakBeforeBraces" : "Stroustrup",
-            "\ "ColumnLimit" : 95,
-            "\ "BreakConstructorInitializersBeforeComma" : "true",
-            "\ "ConstructorInitializerAllOnOneLineOrOnePerLine" : "true" }
 
 let g:clang_format#style_options = {
             \ "BasedOnStyle" : "Google",
@@ -477,9 +422,5 @@ nnoremap <silent> <space>c  :<C-u>CocList commands<cr>
 nnoremap <silent> <space>o  :<C-u>CocList outline<cr>
 " Search workspace symbols
 nnoremap <silent> <space>s  :<C-u>CocList -I symbols<cr>
-" Do default action for next item.
-nnoremap <silent> <space>j  :<C-u>CocNext<CR>
-" Do default action for previous item.
-nnoremap <silent> <space>k  :<C-u>CocPrev<CR>
 " Resume latest coc list
 nnoremap <silent> <space>p  :<C-u>CocListResume<CR>
