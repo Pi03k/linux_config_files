@@ -147,6 +147,7 @@ bar {
 
 exec --no-startup-id "/usr/bin/artha"
 exec --no-startup-id "/usr/bin/gnome-pomodoro"
+exec --no-startup-id "/usr/bin/keepass"
 exec --no-startup-id "/usr/bin/liferea"
 exec --no-startup-id "/usr/bin/non-session-manager"
 exec --no-startup-id "/usr/bin/pavucontrol"
