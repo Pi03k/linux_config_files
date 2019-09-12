@@ -26,7 +26,6 @@ Plug 'justinmk/vim-gtfo'
 Plug 'kchmck/vim-coffee-script'
 Plug 'luochen1990/rainbow'
 Plug 'majutsushi/tagbar'
-Plug 'mbbill/undotree', { 'on': 'UndotreeToggle' }
 Plug 'mhinz/vim-signify'
 Plug 'nvie/vim-flake8'
 Plug 'octol/vim-cpp-enhanced-highlight'
@@ -38,7 +37,6 @@ Plug 'scrooloose/nerdtree', { 'on': 'NERDTreeToggle' }
 Plug 'scrooloose/syntastic'
 Plug 'slim-template/vim-slim'
 Plug 'solarnz/thrift.vim'
-Plug 'tmhedberg/SimpylFold'
 Plug 'tomasr/molokai'
 Plug 'tpope/vim-eunuch'
 Plug 'jreybert/vimagit'
@@ -60,6 +58,7 @@ Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
 Plug 'roxma/nvim-yarp'
 Plug 'neoclide/coc.nvim', {'tag': '*', 'do': { -> coc#util#install()}}
+Plug 'simnalamburt/vim-mundo'
 
 call plug#end()
 
@@ -115,9 +114,9 @@ set cursorline
 set diffopt+=iwhite
 set diffopt=filler,vertical
 set foldenable
-set foldlevel=100
 set foldlevelstart=1
 set foldmethod=syntax
+set foldlevel=99
 set formatoptions+=tcqron1
 set go+=a               " Visual selection automatically copied to the clipboard
 set gdefault
@@ -179,7 +178,8 @@ au BufNewFile,BufRead wscript* set filetype=python
 au BufNewFile,BufReadPost *.bb set syntax=python
 au BufNewFile,BufReadPost *.pro,*.pri set ft=make
 au BufRead,BufNewFile *.log,*.LOG,*.err set ft=none
-au BufRead,BufNewFile SConstruct set syntax=python
+au BufRead,BufNewFile wscript,SConstruct,SConscript set syntax=python
+au BufRead,BufNewFile wscript,SConstruct,SConscript set filetype=python
 au BufRead *.py set smartindent cinwords=if,elif,else,for,while,try,except,finally,def,class
 au BufWritePre *.py normal m`:%s/\s\+$//e ``
 au FileType python set omnifunc=pythoncomplete#Complete
