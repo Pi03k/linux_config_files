@@ -37,15 +37,12 @@ Plug 'scrooloose/nerdtree', { 'on': 'NERDTreeToggle' }
 Plug 'scrooloose/syntastic'
 Plug 'slim-template/vim-slim'
 Plug 'solarnz/thrift.vim'
-Plug 'tomasr/molokai'
 Plug 'tpope/vim-eunuch'
-Plug 'jreybert/vimagit'
 Plug 'tpope/vim-fugitive'
-Plug 'tpope/vim-rails', { 'for': [] }
+Plug 'tpope/vim-obsession'
 Plug 'tpope/vim-unimpaired'
 Plug 'vim-scripts/BufClose.vim'
 Plug 'vim-scripts/LargeFile'
-Plug 'vim-scripts/indentpython.vim'
 Plug 'vim-scripts/syslog-syntax-file'
 Plug 'xolox/vim-misc'
 Plug 'xolox/vim-session'
@@ -59,6 +56,8 @@ Plug 'vim-airline/vim-airline-themes'
 Plug 'roxma/nvim-yarp'
 Plug 'neoclide/coc.nvim', {'tag': '*', 'do': { -> coc#util#install()}}
 Plug 'simnalamburt/vim-mundo'
+Plug 'liuchengxu/vista.vim'
+Plug 'jreybert/vimagit'
 
 call plug#end()
 
@@ -94,7 +93,6 @@ endif
 syntax on
 set fenc=utf-8
 set termencoding=utf-8
-set t_Co=256
 set background=dark
 "colorscheme molokai
 colorscheme gruvbox
@@ -120,14 +118,15 @@ set foldlevel=99
 set formatoptions+=tcqron1
 set go+=a               " Visual selection automatically copied to the clipboard
 set gdefault
-set grepformat=%f:%l:%c:%m,%f:%l:%m
+"set grepformat=%f:%l:%c:%m,%f:%l:%m
+set grepprg=ag\ --vimgrep\ $*
+set grepformat=%f:%l:%c:%m
 set hidden
 set history=3000
 set hls
 set hlsearch " CTRL-L / CTRL-R W
 set ignorecase smartcase
 set incsearch
-set laststatus=2
 set laststatus=2   " Always show the statusline
 set list
 set listchars=tab:\|\ ,
@@ -247,11 +246,6 @@ map  <leader>t :Tags <C-R>=expand("<cword>")<CR><CR>
 " ----------------------------------------------------------------------------
 " ack.vim
 " ----------------------------------------------------------------------------
-if executable('ag')
-  let &grepprg = 'ag --nogroup --nocolor --column'
-else
-  let &grepprg = 'grep -rn $* *'
-endif
 command! -nargs=1 -bar Grep execute 'silent! grep! <q-args>' | redraw! | copen
 
 nnoremap <leader>so :OpenSession
@@ -327,6 +321,8 @@ let g:airline#extensions#branch#displayed_head_limit = 15
 let g:airline#extensions#branch#format = 2
 
 let g:magit_discard_untracked_do_delete=1
+let g:magit_default_fold_level = 0
+
 let g:SimpylFold_docstring_preview = 1
 au BufWinEnter *.py setlocal foldexpr=SimpylFold(v:lnum) foldmethod=expr
 au BufWinLeave *.py setlocal foldexpr< foldmethod<
@@ -425,9 +421,8 @@ nnoremap <silent> <space>s  :<C-u>CocList -I symbols<cr>
 " Resume latest coc list
 nnoremap <silent> <space>p  :<C-u>CocListResume<CR>
 
-if &term =~ '256color'
-" disable Background Color Erase (BCE) so that color schemes
-" render properly when inside 256-color tmux and GNU screen.
-" see also http://sunaku.github.io/vim-256color-bce.html
-	set t_ut=
-endif
+let g:coc_global_extensions = [
+  \ 'coc-emoji', 'coc-prettier',
+  \ 'coc-python', 'coc-ultisnips',
+  \ 'coc-java', 'coc-git',
+  \ ]
