@@ -174,6 +174,7 @@ au BufNewFile,BufRead *.vshdr,*.fshdr,*.frag,*.vert,*.fp,*.vp,*.glsl setf glsl
 au BufNewFile,BufRead wscript* set filetype=python
 au BufNewFile,BufReadPost *.bb set syntax=python
 au BufNewFile,BufReadPost *.pro,*.pri set ft=make
+au BufNewFile,BufReadPost *.qml set ft=javascript
 au BufRead,BufNewFile *.log,*.LOG,*.err set ft=none
 au BufRead,BufNewFile wscript,SConstruct,SConscript set syntax=python
 au BufRead,BufNewFile wscript,SConstruct,SConscript set filetype=python
