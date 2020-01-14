@@ -246,11 +246,6 @@ map  <leader>t :Tags <C-R>=expand("<cword>")<CR><CR>
 " ----------------------------------------------------------------------------
 command! -nargs=1 -bar Grep execute 'silent! grep! <q-args>' | redraw! | copen
 
-nnoremap <leader>so :OpenSession
-nnoremap <leader>ss :SaveSession
-nnoremap <leader>sd :DeleteSession<CR>
-nnoremap <leader>sc :CloseSession<CR>
-
 "Copy file name to clipboard register
 noremap <leader>p :let @+=expand("%:p")<CR>
 
@@ -291,10 +286,6 @@ let g:tagbar_autoclose=1
 
 let g:matchparen_insert_timeout=5
 
-let g:session_directory = "~/.vim/sessions/"
-let g:session_autoload = "no"
-let g:session_autosave = "no"
-let g:session_command_aliases = 1
 let g:cpp_class_scope_highlight = 1
 let g:cpp_experimental_template_highlight = 1
 let g:tagbar_width = 60
