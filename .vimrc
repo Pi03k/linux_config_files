@@ -42,7 +42,6 @@ Plug 'rhysd/vim-clang-format'
 Plug 'roxma/nvim-yarp'
 Plug 'rust-lang/rust.vim'
 Plug 'scrooloose/nerdcommenter'
-Plug 'scrooloose/nerdtree', { 'on': 'NERDTreeToggle' }
 Plug 'scrooloose/syntastic'
 Plug 'simnalamburt/vim-mundo'
 Plug 'slim-template/vim-slim'
@@ -257,7 +256,6 @@ noremap <leader>p :let @+=expand("%:p")<CR>
 
 map <A-]> :vsp <CR>:exec("tag ".expand("<cword>"))<CR>
 
-nmap <F7> :NERDTreeToggle<CR>
 nnoremap <F8> :TagbarToggle<CR>
 nnoremap <F9> :!pkill -9 -f pyclewn <CR> :Pyclewn<CR> :Csource ./.pyclewn<CR>
 map <F12> :set tags+=./tags <CR> :cs reset<CR> :cs add cscope.out<CR>
@@ -277,9 +275,6 @@ let g:pyclewn_args="--gdb=async -m 20"
 let g:pyclewn_args = "-l debug -f ~/pyclewn.log"
 let g:proj_window_width = 1
 let g:proj_window_increment = 80
-
-let g:NERDTreeWinSize=35
-let g:NERDTreeChDirMode=2
 
 let g:syntastic_always_populate_loc_list = 1
 let g:xml_syntax_folding = 1
