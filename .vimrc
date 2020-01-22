@@ -8,7 +8,6 @@ Plug 'SirVer/ultisnips' | Plug 'honza/vim-snippets'
 Plug 'SirVer/ultisnips', { 'on': '<Plug>(tab)' }
 Plug 'Yggdroot/indentLine', { 'on': 'IndentLinesEnable' }
 Plug 'chrisbra/unicode.vim', { 'for': 'journal' }
-Plug 'ctrlpvim/ctrlp.vim'
 Plug 'davidhalter/jedi-vim'
 Plug 'davidoc/taskpaper.vim'
 Plug 'derekwyatt/vim-fswitch'
@@ -29,9 +28,9 @@ Plug 'justinmk/vim-gtfo'
 Plug 'kchmck/vim-coffee-script'
 Plug 'liuchengxu/vista.vim'
 Plug 'luochen1990/rainbow'
+Plug 'lvht/mru'
 Plug 'majutsushi/tagbar'
 Plug 'maksimr/vim-jsbeautify'
-Plug 'mhinz/vim-signify'
 Plug 'mileszs/ack.vim'
 Plug 'morhetz/gruvbox'
 Plug 'neoclide/coc.nvim', {'tag': '*', 'do': { -> coc#util#install()}}
@@ -46,6 +45,7 @@ Plug 'scrooloose/syntastic'
 Plug 'simnalamburt/vim-mundo'
 Plug 'slim-template/vim-slim'
 Plug 'solarnz/thrift.vim'
+Plug 'tpope/vim-jdaddy'
 Plug 'tpope/vim-eunuch'
 Plug 'tpope/vim-fugitive'
 Plug 'tpope/vim-obsession'
@@ -184,27 +184,9 @@ au FilterWritePre * if &diff | setlocal wrap< | endif
 "au VimEnter * if &diff | execute 'windo set wrap' | endif
 au Filetype gitcommit setlocal spell textwidth=72
 
-noremap <C-F> <C-D>
-noremap <C-B> <C-U>
-
 " Tag stack
 nnoremap g[ :pop<cr>
 
-if has('nvim')
-  tnoremap <a-a> <esc>a
-  tnoremap <a-b> <esc>b
-  tnoremap <a-d> <esc>d
-  tnoremap <a-f> <esc>f
-endif
-
-nnoremap ]q :cnext<cr>zz
-nnoremap [q :cprev<cr>zz
-nnoremap ]l :lnext<cr>zz
-nnoremap [l :lprev<cr>zz
-
-" ----------------------------------------------------------------------------
-" <tab> / <s-tab> | Circular windows navigation
-" ----------------------------------------------------------------------------
 nnoremap <tab>   <c-w>w
 nnoremap <S-tab> <c-w>W
 
@@ -229,33 +211,29 @@ if has("cscope")
   nnoremap <C-\>f :cs find f <C-R>=expand("<cfile>")<CR><CR>
   " nnoremap <C-\>i :cs find i ^<C-R>=expand("<cfile>")<CR>$<CR>
   nnoremap <C-\>d :cs find d <C-R>=expand("<cword>")<CR><CR>
-
-  " extends
   nnoremap <C-\>e :cs find t extends <C-R>=expand("<cword>")<CR><CR>
-  " implements
   nnoremap <C-\>i :cs find t implements <C-R>=expand("<cword>")<CR><CR>
-  " new
   nnoremap <C-\>n :cs find t new <C-R>=expand("<cword>")<CR><CR>
 endif
 
 nnoremap <leader>c :cclose<bar>lclose<cr> " Close quickfix/location window
 map  <leader>t :Tags <C-R>=expand("<cword>")<CR><CR>
+map  <leader>f :Files<CR>
+map  <leader>b :Buffers<CR>
+nnoremap <silent><C-p> :Mru<CR>
+"Copy file name to clipboard register
+noremap <leader>p :let @+=expand("%:p")<CR>
 
 " ----------------------------------------------------------------------------
 " ack.vim
 " ----------------------------------------------------------------------------
 command! -nargs=1 -bar Grep execute 'silent! grep! <q-args>' | redraw! | copen
 
-"Copy file name to clipboard register
-noremap <leader>p :let @+=expand("%:p")<CR>
-
-map <A-]> :vsp <CR>:exec("tag ".expand("<cword>"))<CR>
-
 nnoremap <F8> :TagbarToggle<CR>
-nnoremap <F9> :!pkill -9 -f pyclewn <CR> :Pyclewn<CR> :Csource ./.pyclewn<CR>
 map <F12> :set tags+=./tags <CR> :cs reset<CR> :cs add cscope.out<CR>
 
-nnoremap <silent><C-p> :CtrlPMRUFiles<CR>
+let g:mru_file_list_size = 20
+let g:mru_ignore_patterns = 'fugitive\|\.git/\|\_^/tmp/' " default value
 
 inoremap <expr> <c-x><c-t> fzf#complete('tmuxwords.rb --all-but-current --scroll 500 --min 5')
 imap <c-x><c-k> <plug>(fzf-complete-word)
@@ -266,21 +244,12 @@ nmap <leader><tab> <plug>(fzf-maps-n)
 xmap <leader><tab> <plug>(fzf-maps-x)
 omap <leader><tab> <plug>(fzf-maps-o)
 
-let g:pyclewn_args="--gdb=async -m 20"
-let g:pyclewn_args = "-l debug -f ~/pyclewn.log"
 let g:proj_window_width = 1
 let g:proj_window_increment = 80
 
 let g:syntastic_always_populate_loc_list = 1
 let g:xml_syntax_folding = 1
 let g:loaded_matchparen = 1
-
-let g:ctrlp_cmd = 'CtrlPMRUFiles'
-let g:ctrlp_working_path_mode = 'w'
-let g:ctrlp_user_command = 'ag %s -l --nocolor -g ""'
-let g:ctrlp_use_caching = 0
-let g:ctrlp_map = '<c-p>'
-let g:ctrlp_regexp = 0
 
 let g:tagbar_autoclose=1
 
@@ -371,6 +340,19 @@ nmap <silent> gy <Plug>(coc-type-definition)
 nmap <silent> gi <Plug>(coc-implementation)
 nmap <silent> gr <Plug>(coc-references)
 
+" navigate chunks of current buffer
+nmap [g <Plug>(coc-git-prevchunk)
+nmap ]g <Plug>(coc-git-nextchunk)
+" show chunk diff at current position
+nmap gs <Plug>(coc-git-chunkinfo)
+" show commit contains current position
+nmap gc <Plug>(coc-git-commit)
+" create text object for git chunks
+omap ig <Plug>(coc-git-chunk-inner)
+xmap ig <Plug>(coc-git-chunk-inner)
+omap ag <Plug>(coc-git-chunk-outer)
+xmap ag <Plug>(coc-git-chunk-outer)
+
 " Use K for show documentation in preview window
 nnoremap <silent> K :call <SID>show_documentation()<CR>
 
@@ -388,22 +370,14 @@ autocmd CursorHold * silent call CocActionAsync('highlight')
 " Remap for rename current word
 nmap <leader>rn <Plug>(coc-rename)
 
-" Remap for format selected region
-vmap <leader>f  <Plug>(coc-format-selected)
-nmap <leader>f  <Plug>(coc-format-selected)
-
 " Using CocList
 " Show all diagnostics
 nnoremap <silent> <space>a  :<C-u>CocList diagnostics<cr>
-" Manage extensions
 nnoremap <silent> <space>e  :<C-u>CocList extensions<cr>
-" Show commands
 nnoremap <silent> <space>c  :<C-u>CocList commands<cr>
-" Find symbol of current document
 nnoremap <silent> <space>o  :<C-u>CocList outline<cr>
 " Search workspace symbols
 nnoremap <silent> <space>s  :<C-u>CocList -I symbols<cr>
-" Resume latest coc list
 nnoremap <silent> <space>p  :<C-u>CocListResume<CR>
 
 let g:coc_global_extensions = [
@@ -411,3 +385,6 @@ let g:coc_global_extensions = [
   \ 'coc-python', 'coc-ultisnips',
   \ 'coc-java', 'coc-git',
   \ ]
+
+nmap <leader>0 :s/\u/_&/gg<CR>VU<CR>
+"@t=':s/\u/_&/gg <CR> V:^MVU<CR>'
